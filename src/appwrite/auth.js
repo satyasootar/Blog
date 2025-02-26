@@ -40,7 +40,10 @@ export class Authservice {
 
     async getCurrentUser() {
         try {
-            return await this.account.get()
+            const session = await this.account.getSession('current');
+            if (session) {
+                return await this.account.get()
+            }
         } catch (error) {
             console.error("Get user error:", error);
         }
@@ -51,7 +54,7 @@ export class Authservice {
         try {
             await this.account.deleteSessions()
         } catch (error) {
-            console.error("Log out error:", error);
+            console.log("Log our error: ", error)
         }
     }
 }
