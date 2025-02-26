@@ -70,17 +70,25 @@ export class Service {
 
     async getPost(slug) {
         try {
-            await this.databases.getDocument(
+            const response = await this.databases.listDocuments(
                 conf.DATABASE_ID,
                 conf.COLLECTION_ID,
-                slug,
-            )
-            return true
+                [
+                    Query.equal("slug", slug) // Query documents where slug matches
+                ]
+            );
+    
+            if (response.documents.length === 0) {
+                throw new Error("Post not found");
+            }
+    
+            return response.documents[0]; // Return the first matching document
         } catch (error) {
             console.log("Get post Failed: ", error);
-            return false
+            return null;
         }
     }
+    
 
     async getAllPost(query = [Query.equal("status", "active")]) {
         try {

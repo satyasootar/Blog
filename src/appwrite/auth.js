@@ -21,9 +21,9 @@ export class Authservice {
                 return userAccount
             }
         } catch (error) {
+            console.error("Create account error:", error);
             throw error
         }
-
     }
 
     async login({ email, password }) {
@@ -33,6 +33,7 @@ export class Authservice {
                 password
             )
         } catch (error) {
+            console.error("Login error:", error);
             throw error
         }
     }
@@ -41,7 +42,7 @@ export class Authservice {
         try {
             return await this.account.get()
         } catch (error) {
-            console.log("Get user error", error)
+            console.error("Get user error:", error);
         }
         return null;
     }
@@ -50,7 +51,7 @@ export class Authservice {
         try {
             await this.account.deleteSessions()
         } catch (error) {
-            console.log("Log our error: ", error)
+            console.error("Log out error:", error);
         }
     }
 }
